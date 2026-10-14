@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const API_BASE = 'http://localhost:9400/api';
+import api from '../api';
 
 function MetricRegistry() {
   const [metrics, setMetrics] = useState([]);
@@ -9,11 +7,15 @@ function MetricRegistry() {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const metricsRes = await axios.get(`${API_BASE}/metrics`);
-        const versionsRes = await axios.get(`${API_BASE}/metric-versions`);
+        const [metricsData, versionsData] = await Promise.all([
+          api.getMetrics(),
+          api.getMetricVersions()
+        ]);
         
-        const merged = metricsRes.data.map(m => {
-          const version = versionsRes.data.find(v => v.metricId === m.metricId && v.isCurrent);
+        const metricsList = metricsData || [];
+        const versionsList = versionsData || [];
+        const merged = metricsList.map(m => {
+          const version = versionsList.find(v => v.metricId === m.metricId && v.isCurrent);
           return { ...m, ...version };
         });
         

@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const API_BASE = 'http://localhost:9400/api';
+import api from '../api';
 
 function ConsistencyReports() {
   const [reports, setReports] = useState([]);
   const [metrics, setMetrics] = useState([]);
   const [dashDefs, setDashDefs] = useState([]);
 
-  const getMetricName = (id) => metrics.find(m => m.metricId === id)?.metricName || id;
-  const getWidgetName = (id) => dashDefs.find(d => d.dashboardDefinitionId === id)?.widgetName || id;
+  const getMetricName = (id) => (metrics || []).find(m => m.metricId === id)?.metricName || id;
+  const getWidgetName = (id) => (dashDefs || []).find(d => d.dashboardDefinitionId === id)?.widgetName || id;
 
   const [metricVersions, setMetricVersions] = useState([]);
 
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const [compRes, metricRes, dashDefRes, mvRes] = await Promise.all([
-          axios.get(`${API_BASE}/comparisons`),
-          axios.get(`${API_BASE}/metrics`),
-          axios.get(`${API_BASE}/dashboard-definitions`),
-          axios.get(`${API_BASE}/metric-versions`)
+        const [compData, metricData, dashDefData, mvData] = await Promise.all([
+          api.getComparisons(),
+          api.getMetrics(),
+          api.getDashboardDefinitions(),
+          api.getMetricVersions()
         ]);
-        setReports(compRes.data);
-        setMetrics(metricRes.data);
-        setDashDefs(dashDefRes.data);
-        setMetricVersions(mvRes.data);
+        setReports(compData || []);
+        setMetrics(metricData || []);
+        setDashDefs(dashDefData || []);
+        setMetricVersions(mvData || []);
       } catch (err) {
         console.error("Error fetching reports", err);
       }

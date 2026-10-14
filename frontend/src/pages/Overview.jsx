@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
 
-const API_BASE = 'http://localhost:9400/api';
 const COLORS = ['#22c55e', '#ef4444'];
 
 function Overview() {
@@ -19,19 +18,18 @@ function Overview() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [metricsRes, dashRes, compRes] = await Promise.all([
-          axios.get(`${API_BASE}/metrics`),
-          axios.get(`${API_BASE}/dashboards`),
-          axios.get(`${API_BASE}/comparisons`)
+        const [metrics, dashboards, comparisons] = await Promise.all([
+          api.getMetrics(),
+          api.getDashboards(),
+          api.getComparisons()
         ]);
-
-        const comparisons = compRes.data;
-        const matches = comparisons.filter(c => c.status === 'MATCH').length;
-        const mismatches = comparisons.filter(c => c.status === 'MISMATCH').length;
+        const compList = comparisons || [];
+        const matches = compList.filter(c => c.status === 'MATCH').length;
+        const mismatches = compList.filter(c => c.status === 'MISMATCH').length;
 
         setStats({
-          metrics: metricsRes.data.length,
-          dashboards: dashRes.data.length,
+          metrics: (metrics || []).length,
+          dashboards: (dashboards || []).length,
           matches,
           mismatches
         });

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { 
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, 
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend, AreaChart, Area 
 } from 'recharts';
 import { AlertTriangle, CheckCircle2, Info, LayoutDashboard } from 'lucide-react';
 
-const API_BASE = 'http://localhost:9400/api';
 const PIE_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
 function Dashboards() {
@@ -29,36 +28,36 @@ function Dashboards() {
     const fetchData = async () => {
       try {
         const [
-          dashRes, defRes, compRes, metricRes, mvRes,
-          trendRes, catRes, statRes, devRes, sellersRes, prodsRes, kpiRes
+          dashboardsData, defsData, comparisonsData, metricsData, mvData,
+          trendData, catData, statData, devData, sellersData, prodsData, kpiData
         ] = await Promise.all([
-          axios.get(`${API_BASE}/dashboards`),
-          axios.get(`${API_BASE}/dashboard-definitions`),
-          axios.get(`${API_BASE}/comparisons`),
-          axios.get(`${API_BASE}/metrics`),
-          axios.get(`${API_BASE}/metric-versions`),
-          axios.get(`${API_BASE}/data/sales-trend`).catch(() => ({ data: [] })),
-          axios.get(`${API_BASE}/data/category-sales`).catch(() => ({ data: [] })),
-          axios.get(`${API_BASE}/data/order-status`).catch(() => ({ data: [] })),
-          axios.get(`${API_BASE}/data/delivery-performance`).catch(() => ({ data: [] })),
-          axios.get(`${API_BASE}/data/top-sellers`).catch(() => ({ data: [] })),
-          axios.get(`${API_BASE}/data/top-products`).catch(() => ({ data: [] })),
-          axios.get(`${API_BASE}/data/sales-kpis`).catch(() => ({ data: {} }))
+          api.getDashboards(),
+          api.getDashboardDefinitions(),
+          api.getComparisons(),
+          api.getMetrics(),
+          api.getMetricVersions(),
+          api.getSalesTrend(),
+          api.getCategorySales(),
+          api.getOrderStatus(),
+          api.getDeliveryPerformance(),
+          api.getTopSellers(),
+          api.getTopProducts(),
+          api.getSalesKpis()
         ]);
 
-        setDashboards(dashRes.data);
-        setDashboardDefs(defRes.data);
-        setComparisons(compRes.data);
-        setMetrics(metricRes.data);
-        setMetricVersions(mvRes.data);
+        setDashboards(dashboardsData || []);
+        setDashboardDefs(defsData || []);
+        setComparisons(comparisonsData || []);
+        setMetrics(metricsData || []);
+        setMetricVersions(mvData || []);
 
-        setSalesTrend(trendRes.data);
-        setCategorySales(catRes.data);
-        setOrderStatus(statRes.data);
-        setDeliveryPerf(devRes.data);
-        setTopSellers(sellersRes.data);
-        setTopProducts(prodsRes.data);
-        setKpis(kpiRes.data);
+        setSalesTrend(trendData || []);
+        setCategorySales(catData || []);
+        setOrderStatus(statData || []);
+        setDeliveryPerf(devData || []);
+        setTopSellers(sellersData || []);
+        setTopProducts(prodsData || []);
+        setKpis(kpiData || {});
       } catch (err) {
         console.error("Error fetching dashboard data", err);
       }

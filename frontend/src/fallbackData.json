@@ -1,0 +1,742 @@
+{
+  "metrics": [
+    {
+      "description": "Total number of orders placed.",
+      "metricId": 1,
+      "metricName": "Total Orders",
+      "owner": "Sales Team",
+      "status": "ACTIVE"
+    },
+    {
+      "description": "Average revenue per order.",
+      "metricId": 2,
+      "metricName": "Average Order Value",
+      "owner": "Sales Team",
+      "status": "ACTIVE"
+    },
+    {
+      "description": "Number of orders successfully delivered.",
+      "metricId": 3,
+      "metricName": "Delivered Orders",
+      "owner": "Ops Team",
+      "status": "ACTIVE"
+    }
+  ],
+  "metricVersions": [
+    {
+      "businessDefinition": "Total orders placed across the platform",
+      "dimensions": "order_date",
+      "filters": "",
+      "formula": "SUM(order_count)",
+      "isCurrent": true,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time",
+      "versionNumber": 1
+    },
+    {
+      "businessDefinition": "Average revenue generated per order",
+      "dimensions": "order_date",
+      "filters": "",
+      "formula": "SUM(total_sales) / SUM(order_count)",
+      "isCurrent": true,
+      "metricId": 2,
+      "metricVersionId": 2,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time",
+      "versionNumber": 1
+    },
+    {
+      "businessDefinition": "Total orders with status delivered",
+      "dimensions": "order_status",
+      "filters": "order_status = 'delivered'",
+      "formula": "SUM(order_count)",
+      "isCurrent": true,
+      "metricId": 3,
+      "metricVersionId": 3,
+      "sourceTables": "gold_order_status_summary",
+      "timeWindow": "all_time",
+      "versionNumber": 1
+    }
+  ],
+  "dashboards": [
+    {
+      "dashboardId": 1,
+      "dashboardName": "Sales Executive Dashboard",
+      "description": "High-level sales KPIs",
+      "owner": "Sales"
+    },
+    {
+      "dashboardId": 2,
+      "dashboardName": "Ops Daily Monitor",
+      "description": "Daily operations and delivery tracking",
+      "owner": "Operations"
+    },
+    {
+      "dashboardId": 3,
+      "dashboardName": "Product Performance Dashboard",
+      "description": "Deep dive into product categories and individual item performance.",
+      "owner": "Product Team"
+    },
+    {
+      "dashboardId": 4,
+      "dashboardName": "Marketing ROI Dashboard",
+      "description": "Tracking acquisition cost vs LTV and campaign performance.",
+      "owner": "Marketing"
+    },
+    {
+      "dashboardId": 5,
+      "dashboardName": "Regional Sales Dashboard",
+      "description": "Geographic breakdown of sales and delivery times.",
+      "owner": "Sales Team"
+    },
+    {
+      "dashboardId": 6,
+      "dashboardName": "Seller Analytics Dashboard",
+      "description": "Monitoring top sellers and marketplace health.",
+      "owner": "Marketplace Ops"
+    },
+    {
+      "dashboardId": 7,
+      "dashboardName": "Customer Retention Dashboard",
+      "description": "Repeat purchase rates and cohort analysis.",
+      "owner": "Growth Team"
+    },
+    {
+      "dashboardId": 8,
+      "dashboardName": "Logistics & Freight Dashboard",
+      "description": "Detailed view of shipping costs and carrier performance.",
+      "owner": "Logistics"
+    },
+    {
+      "dashboardId": 9,
+      "dashboardName": "Executive Overview Dashboard",
+      "description": "C-suite summary of all top-level business KPIs.",
+      "owner": "Executive"
+    },
+    {
+      "dashboardId": 10,
+      "dashboardName": "Inventory Health Dashboard",
+      "description": "Stock levels and product velocity.",
+      "owner": "Supply Chain"
+    }
+  ],
+  "dashboardDefinitions": [
+    {
+      "dashboardDefinitionId": 1,
+      "dashboardId": 1,
+      "definitionText": "",
+      "dimensions": "order_date",
+      "filters": "",
+      "formula": "SUM(order_count)",
+      "metricId": 1,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 2,
+      "dashboardId": 1,
+      "definitionText": "",
+      "dimensions": "order_date",
+      "filters": "",
+      "formula": "AVG(total_sales)",
+      "metricId": 2,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 3,
+      "dashboardId": 2,
+      "definitionText": "",
+      "dimensions": "order_status",
+      "filters": "",
+      "formula": "SUM(order_count)",
+      "metricId": 3,
+      "sourceTables": "gold_order_status_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 4,
+      "dashboardId": 3,
+      "definitionText": "Total product sales volume across all products",
+      "dimensions": "product_id",
+      "filters": "",
+      "formula": "SUM(order_count)",
+      "metricId": 1,
+      "sourceTables": "gold_product_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 5,
+      "dashboardId": 3,
+      "definitionText": "Average order value broken down by category",
+      "dimensions": "product_category",
+      "filters": "",
+      "formula": "SUM(total_revenue)/SUM(order_count)",
+      "metricId": 2,
+      "sourceTables": "gold_category_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 6,
+      "dashboardId": 4,
+      "definitionText": "Orders acquired through paid marketing channels",
+      "dimensions": "order_date",
+      "filters": "channel=\"paid\"",
+      "formula": "COUNT(order_id)",
+      "metricId": 1,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 7,
+      "dashboardId": 5,
+      "definitionText": "Order count broken down by geographic region",
+      "dimensions": "region",
+      "filters": "",
+      "formula": "SUM(order_count)",
+      "metricId": 1,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 8,
+      "dashboardId": 6,
+      "definitionText": "Average order value per seller",
+      "dimensions": "seller_id",
+      "filters": "",
+      "formula": "SUM(total_revenue) / SUM(order_count)",
+      "metricId": 2,
+      "sourceTables": "gold_seller_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 9,
+      "dashboardId": 7,
+      "definitionText": "Orders from repeat customers estimated at 80%",
+      "dimensions": "order_date",
+      "filters": "customer_type=\"repeat\"",
+      "formula": "SUM(order_count) * 0.8",
+      "metricId": 1,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 10,
+      "dashboardId": 8,
+      "definitionText": "Count of delivered orders broken by carrier",
+      "dimensions": "carrier_id",
+      "filters": "order_status = 'delivered'",
+      "formula": "SUM(order_count)",
+      "metricId": 3,
+      "sourceTables": "gold_order_status_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 11,
+      "dashboardId": 9,
+      "definitionText": "Total orders across the entire platform",
+      "dimensions": "order_date",
+      "filters": "",
+      "formula": "SUM(order_count)",
+      "metricId": 1,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 12,
+      "dashboardId": 9,
+      "definitionText": "Global average order value",
+      "dimensions": "order_date",
+      "filters": "",
+      "formula": "SUM(total_sales) / SUM(order_count)",
+      "metricId": 2,
+      "sourceTables": "gold_sales_summary",
+      "timeWindow": "all_time"
+    },
+    {
+      "dashboardDefinitionId": 13,
+      "dashboardId": 10,
+      "definitionText": "Fulfilled (shipped) orders in the last 30 days",
+      "dimensions": "product_id",
+      "filters": "order_status = 'shipped'",
+      "formula": "SUM(order_count)",
+      "metricId": 3,
+      "sourceTables": "gold_order_status_summary",
+      "timeWindow": "last_30_days"
+    }
+  ],
+  "comparisons": [
+    {
+      "comparisonId": 4,
+      "dashboardDefinitionId": 1,
+      "dashboardId": 1,
+      "dimensionMatch": true,
+      "filterMatch": true,
+      "formulaMatch": true,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "reason": "Dashboard definition completely matches the official metric definition.",
+      "sourceMatch": true,
+      "status": "MATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 5,
+      "dashboardDefinitionId": 2,
+      "dashboardId": 1,
+      "dimensionMatch": true,
+      "filterMatch": true,
+      "formulaMatch": false,
+      "metricId": 2,
+      "metricVersionId": 2,
+      "reason": "Mismatch found in: Formula.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 6,
+      "dashboardDefinitionId": 3,
+      "dashboardId": 2,
+      "dimensionMatch": true,
+      "filterMatch": false,
+      "formulaMatch": true,
+      "metricId": 3,
+      "metricVersionId": 3,
+      "reason": "Mismatch found in: Filters.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 7,
+      "dashboardDefinitionId": 4,
+      "dashboardId": 3,
+      "dimensionMatch": false,
+      "filterMatch": true,
+      "formulaMatch": true,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "reason": "Mismatch found in: Source Tables, Dimensions.",
+      "sourceMatch": false,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 8,
+      "dashboardDefinitionId": 5,
+      "dashboardId": 3,
+      "dimensionMatch": false,
+      "filterMatch": true,
+      "formulaMatch": false,
+      "metricId": 2,
+      "metricVersionId": 2,
+      "reason": "Mismatch found in: Formula, Source Tables, Dimensions.",
+      "sourceMatch": false,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 9,
+      "dashboardDefinitionId": 6,
+      "dashboardId": 4,
+      "dimensionMatch": true,
+      "filterMatch": false,
+      "formulaMatch": false,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "reason": "Mismatch found in: Formula, Filters.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 10,
+      "dashboardDefinitionId": 7,
+      "dashboardId": 5,
+      "dimensionMatch": false,
+      "filterMatch": true,
+      "formulaMatch": true,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "reason": "Mismatch found in: Dimensions.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 11,
+      "dashboardDefinitionId": 8,
+      "dashboardId": 6,
+      "dimensionMatch": false,
+      "filterMatch": true,
+      "formulaMatch": false,
+      "metricId": 2,
+      "metricVersionId": 2,
+      "reason": "Mismatch found in: Formula, Source Tables, Dimensions.",
+      "sourceMatch": false,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 12,
+      "dashboardDefinitionId": 9,
+      "dashboardId": 7,
+      "dimensionMatch": true,
+      "filterMatch": false,
+      "formulaMatch": false,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "reason": "Mismatch found in: Formula, Filters.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 13,
+      "dashboardDefinitionId": 10,
+      "dashboardId": 8,
+      "dimensionMatch": false,
+      "filterMatch": true,
+      "formulaMatch": true,
+      "metricId": 3,
+      "metricVersionId": 3,
+      "reason": "Mismatch found in: Dimensions.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 14,
+      "dashboardDefinitionId": 11,
+      "dashboardId": 9,
+      "dimensionMatch": true,
+      "filterMatch": true,
+      "formulaMatch": true,
+      "metricId": 1,
+      "metricVersionId": 1,
+      "reason": "Dashboard definition completely matches the official metric definition.",
+      "sourceMatch": true,
+      "status": "MATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 15,
+      "dashboardDefinitionId": 12,
+      "dashboardId": 9,
+      "dimensionMatch": true,
+      "filterMatch": true,
+      "formulaMatch": true,
+      "metricId": 2,
+      "metricVersionId": 2,
+      "reason": "Dashboard definition completely matches the official metric definition.",
+      "sourceMatch": true,
+      "status": "MATCH",
+      "timeWindowMatch": true
+    },
+    {
+      "comparisonId": 16,
+      "dashboardDefinitionId": 13,
+      "dashboardId": 10,
+      "dimensionMatch": false,
+      "filterMatch": false,
+      "formulaMatch": true,
+      "metricId": 3,
+      "metricVersionId": 3,
+      "reason": "Mismatch found in: Filters, Time Window, Dimensions.",
+      "sourceMatch": true,
+      "status": "MISMATCH",
+      "timeWindowMatch": false
+    }
+  ],
+  "mismatchReports": [],
+  "salesTrend": [
+    {
+      "order_date": "2016-09-03T18:30:00.000Z",
+      "total_sales": 136.23,
+      "order_count": 1
+    },
+    {
+      "order_date": "2016-09-04T18:30:00.000Z",
+      "total_sales": 75.06,
+      "order_count": 1
+    },
+    {
+      "order_date": "2016-09-12T18:30:00.000Z",
+      "total_sales": 0,
+      "order_count": 1
+    },
+    {
+      "order_date": "2016-09-14T18:30:00.000Z",
+      "total_sales": 143.46,
+      "order_count": 1
+    },
+    {
+      "order_date": "2016-10-01T18:30:00.000Z",
+      "total_sales": 109.34,
+      "order_count": 1
+    },
+    {
+      "order_date": "2016-10-02T18:30:00.000Z",
+      "total_sales": 595.14,
+      "order_count": 8
+    },
+    {
+      "order_date": "2016-10-03T18:30:00.000Z",
+      "total_sales": 11295.48,
+      "order_count": 63
+    },
+    {
+      "order_date": "2016-10-04T18:30:00.000Z",
+      "total_sales": 9645.94,
+      "order_count": 47
+    },
+    {
+      "order_date": "2016-10-05T18:30:00.000Z",
+      "total_sales": 9131.23,
+      "order_count": 51
+    },
+    {
+      "order_date": "2016-10-06T18:30:00.000Z",
+      "total_sales": 8135.97,
+      "order_count": 46
+    },
+    {
+      "order_date": "2016-10-07T18:30:00.000Z",
+      "total_sales": 9383.37,
+      "order_count": 42
+    },
+    {
+      "order_date": "2016-10-08T18:30:00.000Z",
+      "total_sales": 4018.98,
+      "order_count": 26
+    },
+    {
+      "order_date": "2016-10-09T18:30:00.000Z",
+      "total_sales": 4493.39,
+      "order_count": 39
+    },
+    {
+      "order_date": "2016-10-21T18:30:00.000Z",
+      "total_sales": 0,
+      "order_count": 1
+    },
+    {
+      "order_date": "2016-12-22T18:30:00.000Z",
+      "total_sales": 19.62,
+      "order_count": 1
+    },
+    {
+      "order_date": "2017-01-04T18:30:00.000Z",
+      "total_sales": 707.27,
+      "order_count": 32
+    },
+    {
+      "order_date": "2017-01-05T18:30:00.000Z",
+      "total_sales": 988.28,
+      "order_count": 4
+    },
+    {
+      "order_date": "2017-01-06T18:30:00.000Z",
+      "total_sales": 1447.99,
+      "order_count": 4
+    },
+    {
+      "order_date": "2017-01-07T18:30:00.000Z",
+      "total_sales": 809.63,
+      "order_count": 6
+    },
+    {
+      "order_date": "2017-01-08T18:30:00.000Z",
+      "total_sales": 774.51,
+      "order_count": 5
+    }
+  ],
+  "categorySales": [
+    {
+      "category": "beleza_saude",
+      "total_sales": 1441248.07,
+      "order_count": 8836
+    },
+    {
+      "category": "relogios_presentes",
+      "total_sales": 1305541.61,
+      "order_count": 5624
+    },
+    {
+      "category": "cama_mesa_banho",
+      "total_sales": 1241681.72,
+      "order_count": 9417
+    },
+    {
+      "category": "esporte_lazer",
+      "total_sales": 1156656.48,
+      "order_count": 7720
+    },
+    {
+      "category": "informatica_acessorios",
+      "total_sales": 1059272.4,
+      "order_count": 6689
+    },
+    {
+      "category": "moveis_decoracao",
+      "total_sales": 902511.79,
+      "order_count": 6449
+    },
+    {
+      "category": "utilidades_domesticas",
+      "total_sales": 778397.77,
+      "order_count": 5884
+    },
+    {
+      "category": "cool_stuff",
+      "total_sales": 719329.95,
+      "order_count": 3632
+    },
+    {
+      "category": "automotivo",
+      "total_sales": 685384.32,
+      "order_count": 3897
+    },
+    {
+      "category": "ferramentas_jardim",
+      "total_sales": 584219.21,
+      "order_count": 3518
+    }
+  ],
+  "orderStatus": [
+    {
+      "order_status": "approved",
+      "order_count": 2
+    },
+    {
+      "order_status": "canceled",
+      "order_count": 625
+    },
+    {
+      "order_status": "created",
+      "order_count": 5
+    },
+    {
+      "order_status": "delivered",
+      "order_count": 96478
+    },
+    {
+      "order_status": "invoiced",
+      "order_count": 314
+    },
+    {
+      "order_status": "processing",
+      "order_count": 301
+    },
+    {
+      "order_status": "shipped",
+      "order_count": 1107
+    },
+    {
+      "order_status": "unavailable",
+      "order_count": 609
+    }
+  ],
+  "deliveryPerf": [
+    {
+      "delivery_performance": "Late",
+      "count": 1
+    },
+    {
+      "delivery_performance": "On Time",
+      "count": 19
+    }
+  ],
+  "salesKpis": {
+    "total_sales": 61910.89,
+    "total_orders": 380,
+    "aov": 162.923395
+  },
+  "topSellers": [
+    {
+      "seller_label": "Seller 4869f7",
+      "total_revenue": 249640.7,
+      "order_count": 1132
+    },
+    {
+      "seller_label": "Seller 7c67e1",
+      "total_revenue": 239536.44,
+      "order_count": 982
+    },
+    {
+      "seller_label": "Seller 532435",
+      "total_revenue": 235856.68,
+      "order_count": 358
+    },
+    {
+      "seller_label": "Seller 4a3ca9",
+      "total_revenue": 235539.96,
+      "order_count": 1806
+    },
+    {
+      "seller_label": "Seller fa1c13",
+      "total_revenue": 204084.73,
+      "order_count": 585
+    },
+    {
+      "seller_label": "Seller da8622",
+      "total_revenue": 185192.32,
+      "order_count": 1314
+    },
+    {
+      "seller_label": "Seller 7e93a4",
+      "total_revenue": 182754.05,
+      "order_count": 336
+    },
+    {
+      "seller_label": "Seller 1025f0",
+      "total_revenue": 172860.69,
+      "order_count": 915
+    }
+  ],
+  "topProducts": [
+    {
+      "product_label": "Prod bb50f2",
+      "total_revenue": 67606.1,
+      "order_count": 187
+    },
+    {
+      "product_label": "Prod d1c427",
+      "total_revenue": 60976.03,
+      "order_count": 323
+    },
+    {
+      "product_label": "Prod 6cdd53",
+      "total_revenue": 59093.99,
+      "order_count": 151
+    },
+    {
+      "product_label": "Prod 99a478",
+      "total_revenue": 51071.6,
+      "order_count": 467
+    },
+    {
+      "product_label": "Prod d6160f",
+      "total_revenue": 50326.18,
+      "order_count": 35
+    },
+    {
+      "product_label": "Prod 3dd2a1",
+      "total_revenue": 48212.22,
+      "order_count": 255
+    },
+    {
+      "product_label": "Prod aca2eb",
+      "total_revenue": 44820.76,
+      "order_count": 431
+    },
+    {
+      "product_label": "Prod 5f504b",
+      "total_revenue": 41725.81,
+      "order_count": 63
+    }
+  ]
+}
